@@ -23,6 +23,10 @@ public abstract class PowerUpCollectible : MonoBehaviour
     [SerializeField]
     private float  lessBlinkTime;
 
+    [SerializeField]
+    private float durationSeconds;
+
+
     public void Start()
     {
         this.countTimeToAutodestroy = 0;
@@ -40,6 +44,14 @@ public abstract class PowerUpCollectible : MonoBehaviour
                 InicializeAutoDestroy();
             }
         }    
+    }
+
+    public float DurationSeconds
+    {
+        get
+        {
+            return this.durationSeconds;
+        }
     }
 
     public void Collected()

@@ -19,6 +19,8 @@ public class PlayerShip : MonoBehaviour
     [SerializeField]
     private Shield shield;
 
+    private EffectPowerUp currentPowerUp;
+
     private GameOver gameOverScreen; 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -46,6 +48,16 @@ public class PlayerShip : MonoBehaviour
 
         this.rigibody.linearVelocity = new Vector2(velocidadeX, velocidadeY);
         LimitScreen();
+
+        if (this.currentPowerUp != null) //se powerUp atual diferente de null, recebe um powerUp
+        {
+            this.currentPowerUp.Upadate_(); //Atualiza o valor de tempo restante do uso do powerUp
+            if (!this.currentPowerUp.Active) //Quando o tempo de uso acaba ele deixa de ser ativo então chama esse if
+            {
+                this.currentPowerUp.Remove(this); //remove o powerUp
+                this.currentPowerUp = null; //passa o valor de null ao powerUp atual, para poder receber um powerUp em outro momento
+            }
+        }
     }
 
     public void EquipWeaponsAlternate()
@@ -61,6 +73,11 @@ public class PlayerShip : MonoBehaviour
     public void ActiveShield()
     {
         this.shield.Enable();
+    }
+
+    public void RemoveShield()
+    {
+        this.shield.Disable();
     }
 
     private void LimitScreen()
@@ -186,9 +203,15 @@ public class PlayerShip : MonoBehaviour
 
     private void CollectedPowerUp(PowerUpCollectible powerUp)
     {
+        if (this.currentPowerUp != null)
+        {
+            this.currentPowerUp.Remove(this);
+        }
+
         EffectPowerUp effectPowerUp = powerUp.EffectPowerUp;
         effectPowerUp.Application(this);
         powerUp.Collected();
+        this.currentPowerUp = effectPowerUp;
     }
 
     public int Lifes

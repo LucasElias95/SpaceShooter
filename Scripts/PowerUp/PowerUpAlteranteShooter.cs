@@ -5,7 +5,7 @@ public class PowerUpAlteranteShooter : PowerUpCollectible
     public override EffectPowerUp EffectPowerUp
     {
         get{
-            return new EffectPowerUpAlternate();
+            return new EffectPowerUpAlternate(DurationSeconds);
         }
     }
 }

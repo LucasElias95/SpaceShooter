@@ -5,7 +5,7 @@ public class PowerUpShield : PowerUpCollectible
     public override EffectPowerUp EffectPowerUp
     {
         get{
-            return new EffectPowerUpShield();
+            return new EffectPowerUpShield(DurationSeconds);
         }
     }
 }
