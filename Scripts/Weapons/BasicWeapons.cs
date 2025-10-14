@@ -28,11 +28,13 @@ public abstract class BasicWeapons : MonoBehaviour
         }
     }
 
-    protected void CreatLaser(Vector2 _position)
+    protected Laser CreatLaser(Vector2 _position)
     {
-        //logica de tiro que instancia o laser
-        Instantiate(this.laserPrefab, _position, Quaternion.identity);
+        // Instancia o laser diretamente como Laser
+        Laser laser = Instantiate(this.laserPrefab, _position, Quaternion.identity);
+        return laser;
     }
+
 
     //protected é usado para proteger o metodo, assim ele pode ser acessado pela propria classe, ou classes que herdam a classe orinal
     //abstract diz o metodo existe, mas é implementado em outra classe

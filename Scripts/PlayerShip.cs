@@ -33,7 +33,9 @@ public class PlayerShip : MonoBehaviour
         this.gameOverScreen = gameOverObject.GetComponent<GameOver>();
         this.gameOverScreen.Hide();
 
+        //EquipWeaponsSpread();
         EquipWeaponsAlternate();
+        //EquipWeaponsDouble();
         this.shield.Disable();
     }
 
@@ -68,6 +70,11 @@ public class PlayerShip : MonoBehaviour
         public void EquipWeaponsDouble()
     {
         this.weaponControll.EquipDouble();
+    }
+
+    public void EquipWeaponsSpread()
+    {
+        this.weaponControll.EquipSpread();
     }
 
     public void ActiveShield()

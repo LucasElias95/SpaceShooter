@@ -10,12 +10,16 @@ public class WeaponControll : MonoBehaviour
     [SerializeField]
     private WeaponDoubleShooter doubleShooter; //disparos dulpos
 
+    [SerializeField]
+    private WeaponSpreadShot spreadShot;
+
     private BasicWeapons actualWeapon; //define o tipo de disparo atual
 
     private void Awake()
     {
         this.alternateShooter.Disable();
         this.doubleShooter.Disable();
+        this.spreadShot.Disable();
     }
 
     public void EquipAlternate()
@@ -24,9 +28,14 @@ public class WeaponControll : MonoBehaviour
 
     }
 
-    public void EquipDouble()
+        public void EquipDouble()
     {
         this.ActualWeapon = this.doubleShooter; //equipa o disparo duplo
+    }
+
+        public void EquipSpread()
+    {
+        this.ActualWeapon = this.spreadShot; //equipa o disparo duplo
     }
 
     private BasicWeapons ActualWeapon //controla qual o tipo de disparo está sendo usado

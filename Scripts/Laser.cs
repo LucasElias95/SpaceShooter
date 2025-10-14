@@ -7,7 +7,7 @@ public class Laser : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        this.rigidbody.linearVelocity = new Vector2 (0, this.velocityY);
+        Direction = this.transform.up;
     }
 
     // Update is called once per frame
@@ -19,6 +19,15 @@ public class Laser : MonoBehaviour
         if (cameraPosition.y > 1)
         {
             Destroy(this.gameObject);
+        }
+    }
+
+    public Vector2 Direction
+    {
+        set
+        {
+            this.transform.up = value;
+            this.rigidbody.linearVelocity = value.normalized * this.velocityY;
         }
     }
 
