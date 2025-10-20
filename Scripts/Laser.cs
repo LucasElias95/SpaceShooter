@@ -7,6 +7,8 @@ public class Laser : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        AudioControll audioControll = GameObject.FindObjectOfType<AudioControll>();
+        audioControll.PlayLaserAudio();
         Direction = this.transform.up;
     }
 

@@ -5,7 +5,7 @@ public class InGame : MonoBehaviour
 {
   public Text scoreText;
   public LifeBar lifeBar;
-  public Text pause; //Text deve receber .enable = false/true
+  public GameObject pause; //Se for Text deve receber pause.enable = false/true se for GameObject recebe o .SetActive()
   public bool isPause = false; 
 
   private PlayerShip player;
@@ -13,7 +13,7 @@ public class InGame : MonoBehaviour
   void Start()
   {
     this.player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerShip>();
-    pause.enabled = false;
+    pause.SetActive(false);
   }
   
   void Update()
@@ -23,20 +23,20 @@ public class InGame : MonoBehaviour
     Pause();
   }
 
-   void Pause()
+  public void Pause()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (!isPause)
             {
                 Time.timeScale = 0f;      // Pausa o jogo
-                pause.enabled = true;     // Mostra o texto de pausa
+                pause.SetActive(true);     // Mostra o texto de pausa
                 isPause = true;
             }
             else
             {
                 Time.timeScale = 1f;      // Despausa o jogo
-                pause.enabled = false;    // Esconde o texto de pausa
+                pause.SetActive(false);    // Esconde o texto de pausa
                 isPause = false;
             }
         }

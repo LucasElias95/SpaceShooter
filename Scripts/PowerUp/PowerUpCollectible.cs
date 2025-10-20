@@ -55,7 +55,8 @@ public abstract class PowerUpCollectible : MonoBehaviour
     }
 
     public void Collected()
-    {
+    {   AudioControll audioControll = GameObject.FindObjectOfType<AudioControll>();
+        audioControll.PlayCollectedPowerUpAudio();
         Destroy(this.gameObject);
     }
 

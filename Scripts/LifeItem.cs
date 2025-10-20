@@ -16,6 +16,8 @@ public int LifeRecharge
 
 public void Collected()
 {
+    AudioControll audioControll = GameObject.FindObjectOfType<AudioControll>();
+    audioControll.PlayCollectedLifeItemAudio();
     //cria e destroi a particula
     ParticleSystem particle = Instantiate(this.particlePrefab, this.transform.position, Quaternion.identity);
     Destroy(particle.gameObject, 1f);

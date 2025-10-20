@@ -22,10 +22,12 @@ public class PlayerShip : MonoBehaviour
     private EffectPowerUp currentPowerUp;
 
     private GameOver gameOverScreen; 
+    private AudioControll audioControll;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        this.audioControll = GameObject.FindObjectOfType<AudioControll>();
         this.lifes = maxLife;
         ScoreController.Score = 0;
 
@@ -179,11 +181,11 @@ public class PlayerShip : MonoBehaviour
     private void ColliderEnemy(Enemy enemy)
     {   
         if (this.shield.Active)
-        {
+        {   audioControll.PlayDamageShieldAudio();
             this.shield.Damaged();
         }
         else
-        {
+        {   audioControll.PlayDamagePlayerdAudio();
             Lifes--;
         }
             enemy.Damage();  
@@ -192,11 +194,12 @@ public class PlayerShip : MonoBehaviour
     private void ColliderMeteor(Meteor meteor)
     {
         if (this.shield.Active)
-        {
+        {   audioControll.PlayDamageShieldAudio();
             this.shield.Damaged();
         }
         else
         {
+            audioControll.PlayDamagePlayerdAudio();
             Lifes--;
         }    
         meteor.Killed(false); 
@@ -240,6 +243,8 @@ public class PlayerShip : MonoBehaviour
                 this.lifes = 0;
                 this.gameObject.SetActive(false);
                 gameOverScreen.Show();
+
+                this.audioControll.PlayGameOverAudio();
             }
         }
     }
