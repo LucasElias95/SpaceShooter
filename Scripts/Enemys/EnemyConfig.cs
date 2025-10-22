@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NovaConfiguração", menuName = "SapceShooter/Enemys/enemyConfig")]
+[CreateAssetMenu(fileName = "NovaConfiguração", menuName = "SpaceShooter/Enemys/enemyConfig")]
 public class EnemyConfig : ScriptableObject
 {
  

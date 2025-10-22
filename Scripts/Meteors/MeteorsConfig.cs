@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NovaConfiguração", menuName = "SapceShooter/Meteors/meteorsConfig")]
+[CreateAssetMenu(fileName = "NovaConfiguração", menuName = "SpaceShooter/Meteors/meteorsConfig")]
 public class MeteorsConfig : ScriptableObject
 {
   

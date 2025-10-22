@@ -1,27 +1,21 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NovaConfiguração", menuName = "SapceShooter/Enemys/enemyProperties")]
+[CreateAssetMenu(fileName = "NovaConfiguração", menuName = "SpaceShooter/Enemys/enemyProperties")]
 public class EnemyProperties : ScriptableObject
 {
     [SerializeField]
-    private float minVelocity;
-    [SerializeField]
-    private float maxVelocity;
+    private BaseMovement baseMovement;
+    
     [SerializeField]
     private int maxLife;
     
 
-    public float MinVelocity{
+    public BaseMovement _BaseMovement{
         get{
-            return this.minVelocity;
+            return this.baseMovement;
         }
     }
     
-    public float MaxVelocity{
-        get{
-            return this.maxVelocity;
-        }
-    }
 
     public int MaxLife{
         get{

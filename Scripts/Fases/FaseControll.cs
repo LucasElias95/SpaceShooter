@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class FaseControll : MonoBehaviour
@@ -8,34 +10,54 @@ public class FaseControll : MonoBehaviour
     private int indiceCurrentfase;
     private Fase currentFase;
 
-    [SerializeField]
-    private EnemyControll enemyControll; 
-
     private void Start()
     {
-        this.indiceCurrentfase = 0;
-        StartCurrentFase();
+        this.indiceCurrentfase = -1;
+        AdvacendNextFase();
+    }
+
+    private void Update()
+    {
+        if (this.currentFase != null)
+        {
+            this.currentFase.Atualizar();
+        }
     }
 
     private void StartCurrentFase()
     {
         this.currentFase = this.fase[this.indiceCurrentfase];
-        this.enemyControll.Config(this, this.currentFase.EnemyControllConfig);
+        this.currentFase._FaseFinished += FinishFase;
+        this.currentFase.Iniciar();
     }
 
     public void FinishFase()
-    {   
+    {   this.currentFase._FaseFinished -= FinishFase;
         if (HaveNextFase())
         {
-            Debug.Log("Fase" + this.currentFase.Name + "foi concluida");
-            this.indiceCurrentfase++;
-            StartCurrentFase(); 
+           AdvacendNextFase();
         }
         else
         {
             Debug.Log("Jogo Concluido");
         }
 
+    }
+
+    private void AdvacendNextFase()
+    { 
+        AnimationFaseTransition.Instance.FinishAnimationFaseTransition += FinishTransitionFase;
+
+        Fase nextFase = this.fase[this.indiceCurrentfase + 1];
+        AnimationFaseTransition.Instance.Show(nextFase.name);
+        
+    }
+
+    private void FinishTransitionFase()
+    {
+        AnimationFaseTransition.Instance.FinishAnimationFaseTransition -= FinishTransitionFase;
+        this.indiceCurrentfase++;
+        StartCurrentFase(); 
     }
 
     private bool HaveNextFase()

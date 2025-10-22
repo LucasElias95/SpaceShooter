@@ -1,15 +1,19 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using Com.MustacheGameStudioTV.SpawnPoints;
 
-public class Enemy : MonoBehaviour
+public class Enemy : InimigoBase
 {
     public SpriteRenderer spriteRenderer;
     public Rigidbody2D rigidbody;
     public ParticleSystem explosionParticlePrefab;
 
     private int life;
-    [SerializeField] private float velocityY;
     private EnemyProperties enemyProperties;
-    private EnemyControll enemyControll;
+
+    private MovementControll movementControll;
+   
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -40,7 +44,8 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        this.rigidbody.linearVelocity = new Vector2(0, -this.velocityY);
+        this.movementControll.Atualizar();
+        this.rigidbody.linearVelocity = this.movementControll.CalculateCurrentVelocity();
         
         Camera camera = Camera.main;
         Vector3 cameraPosition = camera.WorldToViewportPoint(this.transform.position); //transforma a posição do enimigo na posição limite da camera
@@ -53,12 +58,11 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void Config(EnemyControll enemyControll, EnemyProperties enemyProperties)
+    public void Config(EnemyProperties enemyProperties)
     {
-        this.enemyControll = enemyControll;
         this.enemyProperties = enemyProperties;
-        this.velocityY = Random.Range(this.enemyProperties.MinVelocity, this.enemyProperties.MaxVelocity);
         this.life = this.enemyProperties.MaxLife;
+        this.movementControll = new MovementControll(this.enemyProperties._BaseMovement);
     }
 
     private float Width
@@ -82,6 +86,7 @@ public class Enemy : MonoBehaviour
 
     private void Killed(bool defeated) // só será contado a pontuação qunado defeated receber true 
     {
+        Destruir();
         if (defeated)
         {
             ScoreController.Score++;
@@ -89,8 +94,6 @@ public class Enemy : MonoBehaviour
 
         AudioControll audioControll = GameObject.FindObjectOfType<AudioControll>();
         audioControll.PlayEnemyExplosiondAudio();
-
-        this.enemyControll.RemoveEnemy(this);
 
         ParticleSystem explosionParticle = Instantiate(this.explosionParticlePrefab, this.transform.position, Quaternion.identity);
         Destroy(explosionParticle.gameObject, 1f); //destroi a particula depois de 1 segundo    
