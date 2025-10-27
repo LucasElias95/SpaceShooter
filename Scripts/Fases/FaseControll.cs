@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class FaseControll : MonoBehaviour
 {
@@ -9,9 +10,16 @@ public class FaseControll : MonoBehaviour
     
     private int indiceCurrentfase;
     private Fase currentFase;
+    private WinGame winScreen;
+   
 
     private void Start()
     {
+        GameObject winGame = GameObject.FindGameObjectWithTag("WinGame");
+        this.winScreen = winGame.GetComponent<WinGame>();
+        this.winScreen.Hide();
+    
+
         this.indiceCurrentfase = -1;
         AdvacendNextFase();
     }
@@ -39,7 +47,7 @@ public class FaseControll : MonoBehaviour
         }
         else
         {
-            Debug.Log("Jogo Concluido");
+            this.winScreen.Show();
         }
 
     }

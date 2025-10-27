@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class PlayerShip : MonoBehaviour
 {
+    [SerializeField]
+    private bool mouseMovementPrefs;
+
     public Rigidbody2D rigibody;
 
     public float velocity;
@@ -24,6 +27,8 @@ public class PlayerShip : MonoBehaviour
     private GameOver gameOverScreen; 
     private AudioControll audioControll;
 
+    private IPlayerMovement playerMovement;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -39,18 +44,33 @@ public class PlayerShip : MonoBehaviour
         EquipWeaponsAlternate();
         //EquipWeaponsDouble();
         this.shield.Disable();
+
+        #if Unity_ANDROID
+        //executado dentro do android
+        this.playerMovement = new PointAndClickMovement();
+
+        #else
+        // executado em outra plataforma
+        if (this.mouseMovementPrefs)
+        {
+            this.playerMovement = new MouseMovement();
+        }
+        else
+        {
+             this.playerMovement = new KeyboardMovement();
+        }
+        
+        #endif
+
+       
+        this.playerMovement.Config(this.rigibody, this.transform, this.velocity);
     }
 
     // Update is called once per frame
     void Update()
     {
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
+        this.playerMovement.Atualizar();
 
-        float velocidadeX = (horizontal * this.velocity);
-        float velocidadeY = (vertical * this.velocity);
-
-        this.rigibody.linearVelocity = new Vector2(velocidadeX, velocidadeY);
         LimitScreen();
 
         if (this.currentPowerUp != null) //se powerUp atual diferente de null, recebe um powerUp
